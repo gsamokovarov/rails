@@ -1,3 +1,27 @@
+*   Add support hash support for ActiveRecord::Base.composed_of mapping option.
+
+    Since the hashes are ordered as of Ruby 1.9, you can now use them while
+    defining `composed_of` mappings.
+
+    Example:
+        class Customer < ActiveRecord::Base
+          composed_of :address, mapping: { address_street: :street, address_city: :city, address_country: :country }, allow_nil: true
+        end
+
+        class Address
+          attr_reader :street, :city, :country
+
+          def initialize(street, city, country)
+            @street, @city, @country = street, city, country
+          end
+
+          def ==(other)
+            other.is_a?(self.class) && other.street == street && other.city == city && other.country == country
+          end
+        end
+
+    *Genadi Samokovarov*
+
 *   Use strings to represent non-string `order_values`.
 
     *Yves Senn*

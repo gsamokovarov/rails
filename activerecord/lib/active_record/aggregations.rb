@@ -177,8 +177,8 @@ module ActiveRecord
       #   to the Address class, but if the real class name is CompanyAddress, you'll have to specify it
       #   with this option.
       # * <tt>:mapping</tt> - Specifies the mapping of entity attributes to attributes of the value
-      #   object. Each mapping is represented as an array where the first item is the name of the
-      #   entity attribute and the second item is the name of the attribute in the value object. The
+      #   object. Each mapping is represented as a hash or an array where the first item is the name of
+      #   the entity attribute and the second item is the name of the attribute in the value object. The
       #   order in which mappings are defined determines the order in which attributes are sent to the
       #   value class constructor.
       # * <tt>:allow_nil</tt> - Specifies that the value object will not be instantiated when all mapped
@@ -197,7 +197,7 @@ module ActiveRecord
       #   can return nil to skip the assignment.
       #
       # Option examples:
-      #   composed_of :temperature, mapping: %w(reading celsius)
+      #   composed_of :temperature, mapping: { reading: :celsius }
       #   composed_of :balance, class_name: "Money", mapping: %w(balance amount),
       #                         converter: Proc.new { |balance| balance.to_money }
       #   composed_of :address, mapping: [ %w(address_street street), %w(address_city city) ]
@@ -213,9 +213,8 @@ module ActiveRecord
         options.assert_valid_keys(:class_name, :mapping, :allow_nil, :constructor, :converter)
 
         name        = part_id.id2name
+        mapping     = normalize_mapping(options[:mapping] || [ name, name ])
         class_name  = options[:class_name]  || name.camelize
-        mapping     = options[:mapping]     || [ name, name ]
-        mapping     = [ mapping ] unless mapping.first.is_a?(Array)
         allow_nil   = options[:allow_nil]   || false
         constructor = options[:constructor] || :new
         converter   = options[:converter]
@@ -228,10 +227,16 @@ module ActiveRecord
       end
 
       private
+
+        def normalize_mapping(mapping)
+          return mapping.to_a if mapping.is_a?(Hash)
+          mapping.first.is_a?(Array) ? mapping : [ mapping ]
+        end
+
         def reader_method(name, class_name, mapping, allow_nil, constructor)
           define_method(name) do
-            if @aggregation_cache[name].nil? && (!allow_nil || mapping.any? {|pair| !read_attribute(pair.first).nil? })
-              attrs = mapping.collect {|pair| read_attribute(pair.first)}
+            if @aggregation_cache[name].nil? && (!allow_nil || mapping.any? { |pair| !read_attribute(pair.first).nil? })
+              attrs = mapping.collect { |pair| read_attribute(pair.first) }
               object = constructor.respond_to?(:call) ?
                 constructor.call(*attrs) :
                 class_name.constantize.send(constructor, *attrs)
