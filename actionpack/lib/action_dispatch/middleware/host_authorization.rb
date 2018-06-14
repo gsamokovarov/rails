@@ -20,7 +20,7 @@ module ActionDispatch
 
     def initialize(app, hosts, response_app = nil)
       @app = app
-      @hosts = hosts
+      @hosts = Array(hosts)
       @response_app = response_app || DEFAULT_RESPONSE_APP
     end
 
