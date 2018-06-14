@@ -11,7 +11,8 @@ module Rails
       attr_accessor :allow_concurrency, :asset_host, :autoflush_log,
                     :cache_classes, :cache_store, :consider_all_requests_local, :console,
                     :eager_load, :exceptions_app, :file_watcher, :filter_parameters,
-                    :force_ssl, :helpers_paths, :logger, :log_formatter, :log_tags,
+                    :force_ssl, :helpers_paths, :hosts, :hosts_response_app,
+                    :logger, :log_formatter, :log_tags,
                     :railties_order, :relative_url_root, :secret_key_base, :secret_token,
                     :ssl_options, :public_file_server,
                     :session_options, :time_zone, :reload_classes_only_on_change,
@@ -29,6 +30,8 @@ module Rails
         @filter_parameters                       = []
         @filter_redirect                         = []
         @helpers_paths                           = []
+        @hosts                                   = ['localhost', '127.0.0.1', '::1']
+        @hosts_response_app                      = nil
         @public_file_server                      = ActiveSupport::OrderedOptions.new
         @public_file_server.enabled              = true
         @public_file_server.index_name           = "index"
