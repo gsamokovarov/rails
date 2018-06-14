@@ -16,6 +16,7 @@ module ApplicationTests
       require "action_view/railtie"
 
       class MyApp < Rails::Application
+        config.hosts = ["example.org"]
         config.session_store :cookie_store, key: "_myapp_session"
         config.active_support.deprecation = :log
         config.eager_load = false

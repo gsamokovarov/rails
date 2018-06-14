@@ -167,6 +167,7 @@ module TestHelpers
       end
 
       add_to_config <<-RUBY
+        config.hosts << "example.org"
         config.eager_load = false
         config.session_store :cookie_store, key: "_myapp_session"
         config.active_support.deprecation = :log
@@ -191,6 +192,7 @@ module TestHelpers
       @app = Class.new(Rails::Application) do
         def self.name; "RailtiesTestApp"; end
       end
+      @app.config.hosts << "example.org"
       @app.config.eager_load = false
       @app.config.session_store :cookie_store, key: "_myapp_session"
       @app.config.active_support.deprecation = :log
