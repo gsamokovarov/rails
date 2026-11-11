@@ -36,6 +36,7 @@ module ActionDispatch
       response
     rescue Exception => exception
       request = ActionDispatch::Request.new env
+      request.set_header "action_dispatch.debug_exception", exception
       backtrace_cleaner = request.get_header("action_dispatch.backtrace_cleaner")
       wrapper = ExceptionWrapper.new(backtrace_cleaner, exception)
 

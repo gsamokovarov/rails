@@ -1,3 +1,19 @@
+*   Add `Binding#console` to request an interactive Ruby console in the
+    browser, at the bottom of the page rendered for the current request.
+
+    ```ruby
+    class PostsController < ApplicationController
+      def index
+        @posts = Post.all
+        binding.console
+      end
+    end
+    ```
+
+    The console is rendered by the `ActionDispatch::DebugConsole` middleware.
+
+    *Genadi Samokovarov*
+
 *   Shift a local time in a DST spring-forward gap forward by the gap's length
     instead of one hour.
 

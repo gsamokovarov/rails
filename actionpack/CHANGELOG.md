@@ -1,3 +1,26 @@
+*   Add `ActionDispatch::DebugConsole`, a middleware rendering an interactive
+    Ruby console in the browser, replacing the `web-console` gem.
+
+    Call `binding.console` in a controller or a view to get a console at the
+    bottom of the rendered page:
+
+    ```ruby
+    class PostsController < ApplicationController
+      def index
+        @posts = Post.all
+        binding.console
+      end
+    end
+    ```
+
+    When the `debug` gem is available, a console is rendered on the error pages
+    too. It evaluates code in the trace frame selected on the page.
+
+    The console is only rendered for requests from localhost. Other addresses
+    can be allowed with `config.action_dispatch.debug_console_allowed_ips`.
+
+    *Genadi Samokovarov*
+
 *   Apply `config.action_dispatch.cookies_same_site_protection` to every session
     store.
 

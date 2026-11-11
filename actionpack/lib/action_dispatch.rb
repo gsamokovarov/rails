@@ -70,6 +70,7 @@ module ActionDispatch
     autoload :Callbacks
     autoload :Cookies
     autoload :ActionableExceptions
+    autoload :DebugConsole
     autoload :DebugExceptions
     autoload :DebugLocks
     autoload :DebugView

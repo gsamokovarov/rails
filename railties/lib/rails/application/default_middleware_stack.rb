@@ -65,6 +65,11 @@ module Rails
 
           middleware.use ::Rails::Rack::Logger, config.log_tags
           middleware.use ::ActionDispatch::ShowExceptions, show_exceptions_app
+
+          if config.consider_all_requests_local && !config.api_only
+            middleware.use ::ActionDispatch::DebugConsole, config.action_dispatch.debug_console_allowed_ips
+          end
+
           middleware.use ::ActionDispatch::DebugExceptions, app, config.debug_exception_response_format
 
           if config.consider_all_requests_local

@@ -73,6 +73,7 @@ class Rails::Command::MiddlewareTest < ActiveSupport::TestCase
       "ActionDispatch::RemoteIp",
       "Rails::Rack::Logger",
       "ActionDispatch::ShowExceptions",
+      "ActionDispatch::DebugConsole",
       "ActionDispatch::DebugExceptions",
       "ActionDispatch::ActionableExceptions",
       "ActionDispatch::Reloader",

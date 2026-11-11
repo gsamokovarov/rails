@@ -944,11 +944,6 @@ class AppGeneratorTest < Rails::Generators::TestCase
     assert_file "foo bar/config/database.yml", /database: foo_bar_development/
   end
 
-  def test_web_console
-    run_generator
-    assert_gem "web-console"
-  end
-
   def test_generation_runs_bundle_install
     generator([destination_root])
     run_generator_instance
@@ -1232,7 +1227,6 @@ class AppGeneratorTest < Rails::Generators::TestCase
 
   def test_skip_dev_gems
     run_generator [destination_root, "--skip-dev-gems"]
-    assert_no_gem "web-console"
     assert_no_gem "kamal"
   end
 

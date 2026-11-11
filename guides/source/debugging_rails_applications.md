@@ -825,17 +825,17 @@ such, its output may differ significantly depending on the object.
 
 ### Web-based Ruby Console
 
-The [`web-console`](https://github.com/rails/web-console) gem allows you to
-inject an interactive Ruby console within your view. It's installed in Rails
-apps for the development environment.
+Rails can render an interactive Ruby console in the browser, at the bottom of
+the page you are debugging. It's available in the development environment for
+requests coming from localhost.
 
-Add a `console` directive in your controller or view.
+Call `binding.console` in your controller or view.
 
 ```ruby
 class PostsController < ApplicationController
   def index
     @posts = Post.all
-    console
+    binding.console
   end
 end
 ```
@@ -843,7 +843,7 @@ end
 or
 
 ```html+erb
-<% console %>
+<% binding.console %>
 
 <h1>Posts</h1>
 ```
@@ -852,15 +852,24 @@ Navigate to `/posts` in your browser and you'll see a console at the bottom of
 the screen. This is an interactive prompt where you can evaluate Ruby expressions
 to inspect the current state of your application.
 
-NOTE: Only one console can be rendered per request. `web-console` will raise an
-error on a second `console` invocation.
+NOTE: Only one console can be rendered per request. If `binding.console` is
+called more than once, the console opens in the last binding.
 
-See the gem's
-[Readme](https://github.com/rails/web-console?tab=readme-ov-file#web-console-)
-for advanced usage and configuration options.
+When the [`debug`](https://github.com/ruby/debug) gem is in your bundle, the
+console is also rendered on the error pages. It evaluates code in the frame the
+exception was raised from and you can switch to another frame by clicking on it
+in the trace.
 
-WARNING: Since `web-console` evaluates plain Ruby code remotely on the server,
-never use it in production.
+If the requests don't reach your application from localhost, like when it runs
+in a Docker container, allow their addresses in `config/environments/development.rb`:
+
+```ruby
+config.action_dispatch.debug_console_allowed_ips = "172.16.0.0/12"
+```
+
+WARNING: Since the console evaluates plain Ruby code remotely on the server,
+it is only rendered when `config.consider_all_requests_local` is enabled. Never
+enable it in production and only allow addresses you trust.
 
 Debugging Memory Leaks
 ----------------------

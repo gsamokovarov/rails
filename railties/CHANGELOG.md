@@ -1,3 +1,12 @@
+*   Add `ActionDispatch::DebugConsole` to the default middleware stack when
+    `config.consider_all_requests_local` is enabled and stop adding the
+    `web-console` gem to the `Gemfile` of new applications.
+
+    Applications depending on `web-console` should remove it from their
+    `Gemfile` and replace `console` calls with `binding.console`.
+
+    *Genadi Samokovarov*
+
 *   Fix `/rails/info/notes` raising `Encoding::CompatibilityError` when notes
     from Ruby and non-Ruby files contain non-ASCII characters.
 

@@ -67,21 +67,12 @@ group :development, :test do
 <%- end -%>
 end
 <% end -%>
-<% unless options.skip_dev_gems? -%>
-<% if !options.skip_kamal? || !options.api? -%>
+<% unless options.skip_dev_gems? || options.skip_kamal? -%>
 
 group :development do
-<% unless options.skip_kamal? -%>
   # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
   gem "kamal", require: false
-<% end -%>
-<%- unless options.api? -%>
-
-  # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem "web-console"
-<%- end -%>
 end
-<% end -%>
 <% end -%>
 <%- if depends_on_system_test? -%>
 

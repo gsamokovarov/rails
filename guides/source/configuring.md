@@ -2386,6 +2386,26 @@ The default value depends on the `config.load_defaults` target version:
 | (original)            | `:marshal`           |
 | 7.0                   | `:json`              |
 
+#### `config.action_dispatch.debug_console_allowed_ips`
+
+Configures the addresses, besides localhost, the [`ActionDispatch::DebugConsole`][]
+middleware renders a console for. Accepts an IP address or network, as a string
+or an `IPAddr`, or an array of them. Defaults to `nil`.
+
+```ruby
+# Allow the console from the Docker networks.
+config.action_dispatch.debug_console_allowed_ips = "172.16.0.0/12"
+```
+
+The address of a request is resolved like [`ActionDispatch::RemoteIp`][] does,
+except that only the allowed addresses are trusted as proxies, whatever
+`config.action_dispatch.trusted_proxies` is, and that requests with conflicting
+forwarding headers are never served.
+
+[`ActionDispatch::RemoteIp`]: https://api.rubyonrails.org/classes/ActionDispatch/RemoteIp.html
+
+[`ActionDispatch::DebugConsole`]: https://api.rubyonrails.org/classes/ActionDispatch/DebugConsole.html
+
 #### `config.action_dispatch.debug_exception_log_level`
 
 Configures the log level used by the [`ActionDispatch::DebugExceptions`][]

@@ -190,7 +190,7 @@ use ActionDispatch::RemoteIp
 use Propshaft::QuietAssets
 use Rails::Rack::Logger
 use ActionDispatch::ShowExceptions
-use WebConsole::Middleware
+use ActionDispatch::DebugConsole
 use ActionDispatch::DebugExceptions
 use ActionDispatch::ActionableExceptions
 use ActionDispatch::Reloader
@@ -315,6 +315,12 @@ Much of Action Controller's functionality is implemented as middleware. The foll
 [`ActionDispatch::Cookies`][] reads cookie data from the request and writes cookie data on the response.
 
 [`ActionDispatch::Cookies`]: https://api.rubyonrails.org/classes/ActionDispatch/Cookies.html
+
+#### `ActionDispatch::DebugConsole`
+
+[`ActionDispatch::DebugConsole`][] renders an interactive Ruby console in the browser for `binding.console` calls and on the debugging pages. It only serves requests from localhost and the addresses in `config.action_dispatch.debug_console_allowed_ips`.
+
+[`ActionDispatch::DebugConsole`]: https://api.rubyonrails.org/classes/ActionDispatch/DebugConsole.html
 
 #### `ActionDispatch::DebugExceptions`
 
